@@ -1,6 +1,5 @@
 /* =============================================
-   FRICAL ALIMENTOS - CSS GLOBAL
-   Tailwind CSS v4
+   FRICAL ALIMENTOS - GLOBAL CSS
    ============================================= */
 
 @import "tailwindcss";
@@ -22,18 +21,8 @@
   font-display: swap;
 }
 
-/* Variáveis */
-:root {
-  --color-header: rgba(35, 45, 55, 0.85);
-  --color-header-solid: #2a353f;
-  --glass-light: rgba(255, 255, 255, 0.92);
-  --glass-dropdown: rgba(255, 255, 255, 0.95);
-  
-  --font-primary: 'Franklin Gothic Demi', 'Arial Black', sans-serif;
-  --font-secondary: 'Franklin Gothic Book', 'Arial', sans-serif;
-}
-
-* {
+/* Reset */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -44,62 +33,17 @@ html {
 }
 
 body {
-  font-family: var(--font-secondary);
+  font-family: 'Franklin Gothic Book', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Classes de fonte */
+/* Utility Classes */
 .font-demi {
-  font-family: var(--font-primary);
+  font-family: 'Franklin Gothic Demi', 'Arial Black', sans-serif;
 }
 
 .font-book {
-  font-family: var(--font-secondary);
-}
-
-/* Header Glass */
-.header-glass {
-  background: var(--color-header);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Dropdown Glass */
-.dropdown-glass {
-  background: var(--glass-dropdown);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Mobile Menu Glass */
-.mobile-menu-glass {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-}
-
-/* Animações de link */
-.nav-link {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-}
-
-.nav-link:hover {
-  transform: scale(1.05);
-}
-
-/* Logo hover */
-.logo-hover {
-  transition: transform 0.3s ease;
-}
-
-.logo-hover:hover {
-  transform: scale(1.08);
+  font-family: 'Franklin Gothic Book', Arial, sans-serif;
 }

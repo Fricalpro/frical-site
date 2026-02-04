@@ -1,6 +1,6 @@
 ---
 // Header.astro - Frical Alimentos
-// Header glassmorphism futurista - versão melhorada
+// Header glassmorphism estilo futurista
 
 const menuItems = [
   { name: 'Sobre', href: '/sobre' },
@@ -40,162 +40,109 @@ const menuItems = [
 ];
 ---
 
-<!-- Header Desktop e Mobile -->
-<header id="main-header" class="fixed top-0 left-0 right-0 z-50">
-  <!-- Container com padding para não colar nas bordas -->
-  <div class="px-6 md:px-12 lg:px-20 pt-4 md:pt-6">
-    <nav class="header-glass rounded-2xl max-w-[1400px] mx-auto">
-      <div class="flex items-center justify-between px-6 md:px-8 py-4">
-        
-        <!-- Logo Desktop (esquerda) -->
-        <a href="/" class="logo-hover hidden md:block flex-shrink-0">
-          <img 
-            src="/images/logo/logo.png" 
-            alt="Frical Alimentos" 
-            class="h-14 w-auto"
-          />
-        </a>
+<!-- HEADER DESKTOP -->
+<header class="fixed top-0 left-0 right-0 z-50 hidden md:block">
+  <div class="header-container">
+    <nav class="header-nav">
+      
+      <!-- Logo -->
+      <a href="/" class="header-logo">
+        <img 
+          src="/images/logo/logo.png" 
+          alt="Frical Alimentos" 
+        />
+      </a>
 
-        <!-- Menu Desktop (centralizado) -->
-        <div class="hidden md:flex flex-1 justify-center">
-          <ul class="flex items-center gap-8 lg:gap-10">
-            {menuItems.map((item) => (
-              <li class="relative group">
-                {item.submenu ? (
-                  <div class="relative">
-                    <!-- Link + Seta separados -->
-                    <div class="flex items-center gap-2">
-                      <a 
-                        href={item.href}
-                        class="nav-link font-book text-white text-[15px] py-2"
-                      >
-                        {item.name}
+      <!-- Menu Central -->
+      <ul class="header-menu">
+        {menuItems.map((item) => (
+          <li class="menu-item">
+            {item.submenu ? (
+              <div class="dropdown-wrapper">
+                <a href={item.href} class="menu-link">
+                  {item.name}
+                </a>
+                <button class="dropdown-arrow" aria-label="Abrir submenu">
+                  <svg viewBox="0 0 12 8" fill="currentColor">
+                    <path d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/>
+                  </svg>
+                </button>
+                
+                <!-- Dropdown -->
+                <div class="dropdown-menu">
+                  <div class="dropdown-content">
+                    {item.submenu.map((sub) => (
+                      <a href={sub.href} class="dropdown-item">
+                        {sub.name}
                       </a>
-                      <button 
-                        class="text-white/70 hover:text-white transition-colors p-1"
-                        aria-label={`Abrir submenu de ${item.name}`}
-                      >
-                        <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                    </div>
-                    
-                    <!-- Dropdown com espaçamento -->
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
-                      <ul class="dropdown-glass rounded-2xl py-4 min-w-[240px]">
-                        {item.submenu.map((sub) => (
-                          <li>
-                            <a 
-                              href={sub.href}
-                              class="block px-6 py-3 font-book text-gray-700 text-[14px] hover:bg-black/5 hover:text-black transition-all"
-                            >
-                              {sub.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    ))}
                   </div>
-                ) : (
-                  <a 
-                    href={item.href}
-                    class="nav-link font-book text-white text-[15px] py-2"
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noopener noreferrer' : undefined}
-                  >
-                    {item.name}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+                </div>
+              </div>
+            ) : (
+              <a 
+                href={item.href}
+                class="menu-link"
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+              >
+                {item.name}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
 
-        <!-- Espaço para balancear (desktop) -->
-        <div class="hidden md:block w-[120px] flex-shrink-0"></div>
-
-        <!-- Botão Menu Mobile (logo centralizado) -->
-        <button 
-          id="mobile-menu-btn"
-          class="md:hidden flex-1 flex justify-center items-center py-1"
-          aria-label="Abrir menu"
-        >
-          <div class="relative">
-            <img 
-              id="mobile-logo"
-              src="/images/logo/logo.png" 
-              alt="Frical Alimentos" 
-              class="h-11 w-auto transition-all duration-500"
-            />
-            <span 
-              id="mobile-close"
-              class="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold opacity-0 transition-all duration-500 pointer-events-none"
-            >
-              ✕
-            </span>
-          </div>
-        </button>
-
-      </div>
     </nav>
   </div>
 </header>
 
-<!-- Menu Mobile Overlay -->
-<div 
-  id="mobile-menu"
-  class="fixed inset-0 z-40 md:hidden pointer-events-none opacity-0 transition-opacity duration-500"
->
-  <!-- Backdrop -->
-  <div id="mobile-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-  
-  <!-- Menu Panel -->
-  <div 
-    id="mobile-panel"
-    class="absolute left-6 right-6 top-28 mobile-menu-glass rounded-3xl p-8 transform -translate-y-8 opacity-0 transition-all duration-500"
-  >
-    <ul class="space-y-2">
-      {menuItems.map((item, index) => (
-        <li class="mobile-item" style={`--delay: ${index * 60}ms`}>
+<!-- HEADER MOBILE -->
+<header class="fixed top-0 left-0 right-0 z-50 md:hidden">
+  <div class="mobile-header-container">
+    <nav class="mobile-header-nav">
+      <button id="mobile-toggle" class="mobile-logo-btn" aria-label="Abrir menu">
+        <img 
+          id="mobile-logo-img"
+          src="/images/logo/logo.png" 
+          alt="Frical Alimentos"
+        />
+        <span id="mobile-close-icon">✕</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-overlay" class="mobile-overlay">
+  <div id="mobile-panel" class="mobile-panel">
+    <ul class="mobile-menu-list">
+      {menuItems.map((item, idx) => (
+        <li class="mobile-menu-item" style={`--i: ${idx}`}>
           {item.submenu ? (
             <div class="mobile-dropdown">
-              <!-- Linha com link e seta separados -->
-              <div class="flex items-center justify-between py-4 border-b border-gray-200">
-                <a 
-                  href={item.href}
-                  class="font-book text-gray-800 text-lg hover:text-black transition-colors"
-                >
+              <div class="mobile-dropdown-header">
+                <a href={item.href} class="mobile-menu-link">
                   {item.name}
                 </a>
-                <button 
-                  class="mobile-dropdown-btn p-2 -mr-2 text-gray-500 hover:text-gray-800 transition-colors"
-                  aria-label={`Abrir submenu de ${item.name}`}
-                >
-                  <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                <button class="mobile-arrow-btn" aria-label="Expandir">
+                  <svg viewBox="0 0 12 8" fill="currentColor">
+                    <path d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/>
                   </svg>
                 </button>
               </div>
-              
-              <!-- Submenu -->
-              <ul class="mobile-submenu max-h-0 overflow-hidden transition-all duration-400 ease-out">
+              <div class="mobile-submenu">
                 {item.submenu.map((sub) => (
-                  <li>
-                    <a 
-                      href={sub.href}
-                      class="block py-3 pl-5 font-book text-gray-600 text-base hover:text-gray-900 transition-colors border-l-2 border-gray-200 hover:border-gray-400 ml-2"
-                    >
-                      {sub.name}
-                    </a>
-                  </li>
+                  <a href={sub.href} class="mobile-submenu-link">
+                    {sub.name}
+                  </a>
                 ))}
-              </ul>
+              </div>
             </div>
           ) : (
             <a 
               href={item.href}
-              class="block py-4 font-book text-gray-800 text-lg border-b border-gray-200 hover:text-black transition-colors"
+              class="mobile-menu-link"
               target={item.external ? '_blank' : undefined}
             >
               {item.name}
@@ -207,119 +154,399 @@ const menuItems = [
   </div>
 </div>
 
-<!-- Espaçador do header fixo -->
-<div class="h-28 md:h-32"></div>
+<!-- Espaçador -->
+<div class="h-32 md:h-36"></div>
 
 <style>
-  /* ===== Menu Mobile Ativo ===== */
-  #mobile-menu.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
+  /* ============================================
+     DESKTOP HEADER
+     ============================================ */
   
-  #mobile-menu.active #mobile-panel {
-    transform: translateY(0) perspective(1000px) rotateX(0deg);
-    opacity: 1;
-  }
-  
-  #mobile-panel {
-    transform: translateY(-20px) perspective(1000px) rotateX(-8deg);
+  .header-container {
+    padding: 24px 48px;
   }
 
-  /* ===== Logo para X ===== */
-  #mobile-menu-btn.active #mobile-logo {
+  @media (min-width: 1400px) {
+    .header-container {
+      padding: 24px 80px;
+    }
+  }
+
+  .header-nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, rgba(55, 70, 85, 0.88) 0%, rgba(45, 58, 72, 0.92) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Logo */
+  .header-logo {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .header-logo:hover {
+    transform: scale(1.05);
+  }
+
+  .header-logo img {
+    height: 56px;
+    width: auto;
+  }
+
+  /* Menu */
+  .header-menu {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .menu-item {
+    position: relative;
+  }
+
+  .menu-link {
+    font-family: 'Franklin Gothic Book', Arial, sans-serif;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+    padding: 8px 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .menu-link:hover {
+    opacity: 0.85;
+    transform: scale(1.03);
+  }
+
+  /* Dropdown Wrapper */
+  .dropdown-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dropdown-arrow {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-arrow svg {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown-arrow:hover {
+    color: white;
+  }
+
+  /* Dropdown Menu */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .dropdown-wrapper:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .dropdown-wrapper:hover .dropdown-arrow svg {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-content {
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 16px 8px;
+    min-width: 240px;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 14px 24px;
+    font-family: 'Franklin Gothic Book', Arial, sans-serif;
+    font-size: 14px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .dropdown-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #111827;
+  }
+
+  /* ============================================
+     MOBILE HEADER
+     ============================================ */
+
+  .mobile-header-container {
+    padding: 16px 24px;
+  }
+
+  .mobile-header-nav {
+    background: linear-gradient(135deg, rgba(55, 70, 85, 0.9) 0%, rgba(45, 58, 72, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 14px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  }
+
+  .mobile-logo-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 4px 0;
+  }
+
+  .mobile-logo-btn img {
+    height: 44px;
+    width: auto;
+    transition: all 0.4s ease;
+  }
+
+  #mobile-close-icon {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+    transition: all 0.4s ease;
+  }
+
+  .mobile-logo-btn.active img {
     opacity: 0;
     transform: scale(0.5) rotate(180deg);
   }
-  
-  #mobile-menu-btn.active #mobile-close {
+
+  .mobile-logo-btn.active #mobile-close-icon {
     opacity: 1;
-    pointer-events: auto;
+    transform: scale(1) rotate(0);
   }
 
-  /* ===== Items do menu mobile animados ===== */
-  .mobile-item {
+  /* Mobile Overlay */
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
     opacity: 0;
-    transform: translateX(-30px);
+    visibility: hidden;
     transition: all 0.4s ease;
-    transition-delay: var(--delay);
   }
-  
-  #mobile-menu.active .mobile-item {
+
+  .mobile-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+  }
+
+  .mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-panel {
+    position: absolute;
+    top: 100px;
+    left: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 
+      0 25px 80px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
+    transform: translateY(-30px) scale(0.95);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-overlay.active .mobile-panel {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .mobile-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-menu-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.4s ease;
+    transition-delay: calc(var(--i) * 0.06s);
+  }
+
+  .mobile-overlay.active .mobile-menu-item {
     opacity: 1;
     transform: translateX(0);
   }
 
-  /* ===== Dropdown mobile ===== */
-  .mobile-dropdown.open .mobile-dropdown-btn svg {
+  .mobile-menu-link {
+    display: block;
+    padding: 18px 8px;
+    font-family: 'Franklin Gothic Book', Arial, sans-serif;
+    font-size: 17px;
+    color: #1f2937;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: color 0.2s ease;
+  }
+
+  .mobile-menu-link:hover {
+    color: #111827;
+  }
+
+  /* Mobile Dropdown */
+  .mobile-dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-dropdown-header .mobile-menu-link {
+    flex: 1;
+  }
+
+  .mobile-arrow-btn {
+    background: none;
+    border: none;
+    padding: 18px 8px;
+    color: #9ca3af;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-arrow-btn svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-arrow-btn:hover {
+    color: #374151;
+  }
+
+  .mobile-dropdown.open .mobile-arrow-btn svg {
     transform: rotate(180deg);
   }
-  
+
+  .mobile-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
   .mobile-dropdown.open .mobile-submenu {
     max-height: 600px;
-    padding-top: 8px;
-    padding-bottom: 16px;
   }
 
-  /* ===== Hover no dropdown desktop ===== */
-  .group:hover .dropdown-glass {
-    animation: dropdownFade 0.3s ease forwards;
+  .mobile-submenu-link {
+    display: block;
+    padding: 14px 8px 14px 24px;
+    font-family: 'Franklin Gothic Book', Arial, sans-serif;
+    font-size: 15px;
+    color: #6b7280;
+    text-decoration: none;
+    border-left: 2px solid #e5e7eb;
+    margin-left: 8px;
+    transition: all 0.2s ease;
   }
 
-  @keyframes dropdownFade {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .mobile-submenu-link:hover {
+    color: #1f2937;
+    border-color: #9ca3af;
   }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const backdrop = document.getElementById('mobile-backdrop');
-    const dropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+    // Mobile Toggle
+    const toggle = document.getElementById('mobile-toggle');
+    const overlay = document.getElementById('mobile-overlay');
     
-    // Toggle menu mobile
-    menuBtn?.addEventListener('click', () => {
-      menuBtn.classList.toggle('active');
-      mobileMenu?.classList.toggle('active');
-      document.body.style.overflow = mobileMenu?.classList.contains('active') ? 'hidden' : '';
+    toggle?.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      overlay?.classList.toggle('active');
+      document.body.style.overflow = overlay?.classList.contains('active') ? 'hidden' : '';
     });
 
-    // Fechar ao clicar no backdrop
-    backdrop?.addEventListener('click', () => {
-      menuBtn?.classList.remove('active');
-      mobileMenu?.classList.remove('active');
-      document.body.style.overflow = '';
+    // Close on backdrop click
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        toggle?.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
     });
 
-    // Dropdowns mobile (só a seta abre/fecha)
-    dropdownBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    // Mobile Dropdowns
+    document.querySelectorAll('.mobile-arrow-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
         const dropdown = btn.closest('.mobile-dropdown');
-        
-        // Fecha outros dropdowns
         document.querySelectorAll('.mobile-dropdown.open').forEach(d => {
           if (d !== dropdown) d.classList.remove('open');
         });
-        
         dropdown?.classList.toggle('open');
       });
     });
 
-    // Fechar menu ao clicar em link (exceto setas)
-    mobileMenu?.querySelectorAll('a').forEach(link => {
+    // Close on link click
+    overlay?.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        menuBtn?.classList.remove('active');
-        mobileMenu?.classList.remove('active');
+        toggle?.classList.remove('active');
+        overlay?.classList.remove('active');
         document.body.style.overflow = '';
       });
     });
