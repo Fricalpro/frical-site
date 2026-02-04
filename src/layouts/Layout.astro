@@ -4,13 +4,9 @@ import Header from '../components/Header.astro';
 
 interface Props {
   title?: string;
-  description?: string;
 }
 
-const { 
-  title = 'Frical Alimentos', 
-  description = 'Qualidade e tradição em carnes desde 1996. Conheça nossas linhas Prime Baby, Premium Grill e muito mais.'
-} = Astro.props;
+const { title = 'Frical Alimentos' } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -18,14 +14,11 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body class="min-h-screen">
     <Header />
-    
     <main>
       <slot />
     </main>
