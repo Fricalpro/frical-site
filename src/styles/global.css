@@ -1,1 +1,136 @@
-@import "tailwindcss";
+/* =============================================
+   FRICAL ALIMENTOS - CSS GLOBAL
+   ============================================= */
+
+/* Importar fontes locais */
+@font-face {
+  font-family: 'Franklin Gothic Demi';
+  src: url('/fonts/franklin-gothic-demi.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Franklin Gothic Book';
+  src: url('/fonts/franklin-gothic-book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variáveis CSS */
+:root {
+  /* Cores principais */
+  --color-primary: #4a2d2d;
+  --color-primary-dark: #381e22;
+  --color-white: #FFFFFF;
+  --color-black: #1A1A1A;
+  --color-gray: #666666;
+  
+  /* Glassmorphism */
+  --glass-dark: rgba(56, 30, 30, 0.75);
+  --glass-dark-border: rgba(255, 255, 255, 0.1);
+  --glass-light: rgba(255, 255, 255, 0.8);
+  --glass-light-border: rgba(0, 0, 0, 0.1);
+  --glass-dropdown: rgba(74, 45, 45, 0.85);
+  
+  /* Fontes */
+  --font-primary: 'Franklin Gothic Demi', 'Arial Black', sans-serif;
+  --font-secondary: 'Franklin Gothic Book', 'Arial', sans-serif;
+  
+  /* Transições */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset e base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-secondary);
+  color: var(--color-black);
+  background-color: var(--color-white);
+  overflow-x: hidden;
+}
+
+/* Utilitários de fonte */
+.font-demi {
+  font-family: var(--font-primary);
+}
+
+.font-book {
+  font-family: var(--font-secondary);
+}
+
+/* Efeito Glassmorphism */
+.glass-dark {
+  background: var(--glass-dark);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-dark-border);
+}
+
+.glass-light {
+  background: var(--glass-light);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-light-border);
+}
+
+.glass-dropdown {
+  background: var(--glass-dropdown);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-dark-border);
+}
+
+/* Animação de escala para links */
+.nav-link {
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.nav-link:hover {
+  transform: scale(1.05);
+}
+
+/* Animação do logo */
+.logo-link {
+  transition: transform var(--transition-normal);
+}
+
+.logo-link:hover {
+  transform: scale(1.08);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
+}

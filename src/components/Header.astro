@@ -1,5 +1,314 @@
 ---
-// Lógica do componente
+// Header.astro - Frical Alimentos
+// Header com efeito glassmorphism, menu dropdown e versão mobile
+
+interface SubPage {
+  name: string;
+  href: string;
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  isExternal?: boolean;
+  subPages?: SubPage[];
+}
+
+const navItems: NavItem[] = [
+  { name: 'Sobre', href: '/sobre' },
+  { 
+    name: 'Produtos', 
+    href: '/produtos',
+    subPages: [
+      { name: 'Prime Baby', href: '/produtos/prime-baby' },
+      { name: 'Premium Grill', href: '/produtos/premium-grill' },
+      { name: 'Tradicional Bovino', href: '/produtos/tradicional-bovino' },
+      { name: 'Palatto Bovino', href: '/produtos/palatto-bovino' },
+      { name: 'Palatto Suíno', href: '/produtos/palatto-suino' },
+      { name: 'Tradicional Suíno', href: '/produtos/tradicional-suino' },
+      { name: 'Carcaça Bovina', href: '/produtos/carcaca-bovina' },
+      { name: 'Carcaça Suína', href: '/produtos/carcaca-suina' },
+      { name: 'Miúdos', href: '/produtos/miudos' },
+      { name: 'Pão de Queijo', href: '/produtos/pao-de-queijo' },
+      { name: 'Industrializados', href: '/produtos/industrializados' },
+    ]
+  },
+  { 
+    name: 'Blog', 
+    href: '/blog',
+    subPages: [
+      { name: 'Carnes', href: '/blog/carnes' },
+      { name: 'Notícias', href: '/blog/noticias' },
+      { name: 'Receitas', href: '/blog/receitas' },
+    ]
+  },
+  { name: 'Política de Qualidade', href: '/politica-de-qualidade' },
+  { 
+    name: 'Contato', 
+    href: 'https://api.whatsapp.com/send/?phone=553399198450&text&type=phone_number&app_absent=0',
+    isExternal: true 
+  },
+  { name: 'Trabalhe Conosco', href: '/trabalhe-conosco' },
+];
 ---
 
-<div>Novo componente</div>
+<header class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 pt-4">
+  <nav class="glass-dark rounded-2xl max-w-7xl mx-auto px-4 md:px-6 py-3">
+    <div class="flex items-center justify-between">
+      
+      <!-- Logo Desktop -->
+      <a href="/" class="logo-link hidden md:block">
+        <img 
+          src="/images/logo/logo.png" 
+          alt="Frical Alimentos" 
+          class="h-12 w-auto"
+        />
+      </a>
+
+      <!-- Logo Mobile (centralizado, funciona como botão do menu) -->
+      <div class="flex-1 md:hidden flex justify-center">
+        <button 
+          id="mobile-menu-button" 
+          class="logo-link relative z-50"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          <!-- Logo (visível quando menu fechado) -->
+          <img 
+            src="/images/logo/logo.png" 
+            alt="Frical Alimentos" 
+            class="h-10 w-auto transition-all duration-300 logo-image"
+            id="logo-image"
+          />
+          <!-- X (visível quando menu aberto) -->
+          <span 
+            class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold opacity-0 transition-all duration-300 close-icon"
+            id="close-icon"
+          >
+            ✕
+          </span>
+        </button>
+      </div>
+
+      <!-- Menu Desktop -->
+      <div class="hidden md:flex items-center justify-center flex-1">
+        <ul class="flex items-center space-x-6 lg:space-x-8">
+          {navItems.map((item) => (
+            <li class="relative group">
+              {item.subPages ? (
+                <>
+                  <button 
+                    class="nav-link font-demi text-white text-sm lg:text-base flex items-center gap-1 py-2"
+                    aria-expanded="false"
+                  >
+                    {item.name}
+                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  
+                  <!-- Dropdown -->
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <ul class="glass-light rounded-xl py-2 min-w-[200px] shadow-xl">
+                      {item.subPages.map((subPage) => (
+                        <li>
+                          <a 
+                            href={subPage.href}
+                            class="block px-4 py-2 font-book text-black text-sm hover:bg-black/5 transition-colors"
+                          >
+                            {subPage.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              ) : (
+                <a 
+                  href={item.href}
+                  class="nav-link font-demi text-white text-sm lg:text-base py-2 block"
+                  target={item.isExternal ? '_blank' : undefined}
+                  rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                >
+                  {item.name}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Espaço vazio para balancear o layout desktop -->
+      <div class="hidden md:block w-[100px]"></div>
+    </div>
+  </nav>
+
+  <!-- Menu Mobile Overlay -->
+  <div 
+    id="mobile-menu" 
+    class="fixed inset-0 z-40 md:hidden opacity-0 invisible transition-all duration-500"
+  >
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
+    
+    <!-- Menu Content -->
+    <div 
+      class="absolute inset-x-4 top-20 glass-light rounded-2xl p-6 transform translate-y-[-20px] transition-all duration-500 menu-content"
+    >
+      <nav>
+        <ul class="space-y-2">
+          {navItems.map((item, index) => (
+            <li class="mobile-nav-item" style={`--delay: ${index * 0.05}s`}>
+              {item.subPages ? (
+                <div class="mobile-dropdown">
+                  <button 
+                    class="w-full flex items-center justify-between py-3 font-demi text-black text-lg border-b border-black/10"
+                    data-dropdown-toggle
+                  >
+                    <span>{item.name}</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  
+                  <!-- Mobile Submenu -->
+                  <ul class="mobile-submenu overflow-hidden max-h-0 transition-all duration-300">
+                    {item.subPages.map((subPage) => (
+                      <li>
+                        <a 
+                          href={subPage.href}
+                          class="block py-2 pl-4 font-book text-black/80 text-base hover:text-black transition-colors"
+                        >
+                          {subPage.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <a 
+                  href={item.href}
+                  class="block py-3 font-demi text-black text-lg border-b border-black/10"
+                  target={item.isExternal ? '_blank' : undefined}
+                  rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                >
+                  {item.name}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Espaço para compensar o header fixo -->
+<div class="h-24"></div>
+
+<style>
+  /* Animação 3D do menu mobile */
+  #mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #mobile-menu.active .menu-content {
+    transform: translateY(0) rotateX(0);
+  }
+
+  .menu-content {
+    transform-origin: top center;
+    transform: translateY(-20px) rotateX(-15deg);
+    perspective: 1000px;
+  }
+
+  /* Transição do logo para X */
+  #mobile-menu-button.active .logo-image {
+    opacity: 0;
+    transform: scale(0.8) rotate(90deg);
+  }
+
+  #mobile-menu-button.active .close-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  .close-icon {
+    transform: scale(0.8) rotate(-90deg);
+  }
+
+  /* Animação dos itens do menu mobile */
+  .mobile-nav-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition-delay: var(--delay);
+  }
+
+  #mobile-menu.active .mobile-nav-item {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Dropdown mobile */
+  .mobile-dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .mobile-dropdown.active .mobile-submenu {
+    max-height: 500px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+</style>
+
+<script>
+  // Menu Mobile Toggle
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const body = document.body;
+
+  menuButton?.addEventListener('click', () => {
+    const isActive = mobileMenu?.classList.contains('active');
+    
+    if (isActive) {
+      mobileMenu?.classList.remove('active');
+      menuButton?.classList.remove('active');
+      body.style.overflow = '';
+    } else {
+      mobileMenu?.classList.add('active');
+      menuButton?.classList.add('active');
+      body.style.overflow = 'hidden';
+    }
+  });
+
+  // Fechar menu ao clicar no backdrop
+  mobileMenu?.addEventListener('click', (e) => {
+    if (e.target === mobileMenu || (e.target as Element)?.classList.contains('backdrop')) {
+      mobileMenu?.classList.remove('active');
+      menuButton?.classList.remove('active');
+      body.style.overflow = '';
+    }
+  });
+
+  // Mobile Dropdowns
+  const dropdownToggles = document.querySelectorAll('[data-dropdown-toggle]');
+  
+  dropdownToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const parent = toggle.closest('.mobile-dropdown');
+      parent?.classList.toggle('active');
+    });
+  });
+
+  // Fechar menu ao clicar em um link
+  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  mobileLinks?.forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.remove('active');
+      menuButton?.classList.remove('active');
+      body.style.overflow = '';
+    });
+  });
+</script>
